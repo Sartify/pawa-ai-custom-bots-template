@@ -30,3 +30,8 @@ export interface Message {
   error?: boolean;
   hasPendingUploads?: boolean;
 }
+
+// export type Message = {
+//   from: "user" | "agent";
+//   text: string;
+// };

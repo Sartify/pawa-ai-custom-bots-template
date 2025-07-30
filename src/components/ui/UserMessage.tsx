@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import { SquarePen } from "lucide-react";
 import Markdown from "@/components/markdown";
 import { FileAttachmentGrid } from "./FileAttachmentGrid";
 import { MicRecorderButton } from "./micRecorderButton";
@@ -83,17 +82,11 @@ export const UserMessage: React.FC<UserMessageProps> = ({
                   : "hover:scale-110"
               } transition-transform`}
             >
-              <Image
-                src="/assets/edit-button.png"
-                alt="Edit"
-                className="w-[13px] h-[13px]"
-                width={13}
-                height={13}
-              />
+              <SquarePen className="w-[13px] h-[13px] text-gray-600 hover:text-[#022e79]" />
             </button>
           </div>
 
-          <div className="bg-[#585454] text-white rounded-bl-lg rounded-tl-lg rounded-br-lg p-3 shadow-md overflow-hidden max-w-full">
+          <div className="bg-[#022e79] text-white rounded-bl-lg rounded-tl-lg rounded-br-lg p-3 shadow-md overflow-hidden max-w-full">
             <div className="text-[0.9rem] overflow-hidden break-words break-all">
               <Markdown content={message.content} />
             </div>
@@ -105,7 +98,7 @@ export const UserMessage: React.FC<UserMessageProps> = ({
         <textarea
           value={editedContent}
           onChange={(e) => setEditedContent(e.target.value)}
-          className={`w-full p-2 rounded-bl-md rounded-tl-md rounded-br-md bg-[#585454] text-white min-h-[200px] resize-none overflow-wrap-anywhere focus:outline-none focus:ring-1 focus:ring-[#FFA200] focus:border-[#FFA200]${
+          className={`w-full p-2 rounded-bl-md rounded-tl-md rounded-br-md bg-[#022e79] text-white min-h-[200px] resize-none overflow-wrap-anywhere focus:outline-none focus:ring-1 focus:ring-[#FFA200] focus:border-[#FFA200]${
             isEditingDisabled ? "opacity-70" : ""
           }`}
           autoFocus

@@ -1,7 +1,6 @@
 import React from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, PenLine } from "lucide-react";
+import { LayoutDashboard, PenLine, Bot } from "lucide-react";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -16,13 +15,7 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center gap-2">
         <Link href="/">
           <div className="flex items-center gap-2 cursor-pointer">
-            <Image
-              src="/pawa-logo.png"
-              height={50}
-              width={69}
-              alt="Pawa Logo"
-              className="w-14 h-10 md:w-14 md:h-10 lg:w-16 lg:h-12 max-[300px]:h-8 max-[300px]:w-10"
-            />
+            <Bot className="w-10 h-10 md:w-14 md:h-14 lg:w-12 lg:h-12 max-[300px]:h-10 max-[300px]:w-10 text-[#022e79]" />
             <span className="text-[#022e79] font-semibold text-base sm:text-lg hidden sm:inline font-avenir">
               WCF Agent
             </span>

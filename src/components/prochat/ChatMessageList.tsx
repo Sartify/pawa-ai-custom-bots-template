@@ -114,7 +114,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   return (
     <div
       ref={containerRef}
-      className="flex flex-col space-y-4 p-4 overflow-y-auto h-full"
+      className="flex flex-col space-y-4 p-4 overflow-y-auto h-full scrollbar-hide"
     >
       {messages.map((message, index) => (
         <div

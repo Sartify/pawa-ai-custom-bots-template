@@ -1,6 +1,7 @@
 "use client";
 import { MessageFile } from "@/types/Message";
 import React from "react";
+import { Bot } from "lucide-react";
 import ChatInput from "./ChatInputBar";
 
 type EmptyStateProps = {
@@ -11,8 +12,9 @@ type EmptyStateProps = {
 export default function TutorEmptyState({ onSend, disabled }: EmptyStateProps) {
   return (
     <div className="flex flex-col items-center justify-center flex-1 px-4 py-4 text-center">
-      <h1 className="text-2xl font-bold mb-4">
-        What knowledge are you pursuing today?
+      <Bot className="w-16 h-16 text-[#022e79] mb-4" />
+      <h1 className="text-xl font-bold mb-4">
+        What are you pursuing today?
       </h1>
       <div className="w-full">
         <ChatInput

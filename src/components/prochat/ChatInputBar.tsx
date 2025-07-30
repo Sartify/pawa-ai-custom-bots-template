@@ -75,7 +75,7 @@ export default function ChatInput({
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Message TutorAi..."
+            placeholder="Message WCF Agent..."
             className="flex-1 bg-transparent text-sm text-gray-700 placeholder-gray-400 focus:outline-none"
             disabled={disabled}
           />
@@ -100,23 +100,6 @@ export default function ChatInput({
             <Send className="w-4 h-4 text-white" />
           </button>
         </div>
-        {showVoiceButton && (
-          <button
-            type="button"
-            className={`h-full aspect-square flex items-center justify-center border border-[#F3F7F6] rounded-lg shadow-md hover:bg-gray-100 ${
-              disabled ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            disabled={disabled}
-          >
-            <img
-              src="/assets/icons/moon.svg"
-              alt="Voice"
-              width={24}
-              height={24}
-              className="opacity-60"
-            />
-          </button>
-        )}
       </form>
     </footer>
   );

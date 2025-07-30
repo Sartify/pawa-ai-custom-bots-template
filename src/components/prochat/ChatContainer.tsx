@@ -80,7 +80,7 @@ export const ChatContainer: React.FC = () => {
         <div className="flex-1 flex items-center justify-center">
           <TutorEmptyState
             onSend={(message, files) =>
-              handleSendMessage(message, options.model, files)
+              handleSendMessage(message, options.model, files as File[])
             }
             disabled={isStreaming}
           />
@@ -88,7 +88,7 @@ export const ChatContainer: React.FC = () => {
         <div className="flex-shrink-0 px-4 pb-4">
           <p className="text-xs text-gray-500 text-center mt-2">
             WCF Agent can make mistakes. Verify the response. Read our{" "}
-            <a href="#" className="text-[#FFA200] hover:underline">
+            <a href="#" className="text-[#022e79] hover:underline">
               Privacy Policy
             </a>
             .
@@ -98,7 +98,7 @@ export const ChatContainer: React.FC = () => {
     ) : (
       // Messages Layout
       <div className="flex flex-col h-full">
-        <div className="overflow-scroll flex-1 pb-2">
+        <div className="overflow-y-auto flex-1 pb-2 scrollbar-hide">
           <MessageList
             messages={messages}
             isStreaming={isStreaming}
@@ -118,7 +118,7 @@ export const ChatContainer: React.FC = () => {
         />
         <p className="text-xs text-gray-500 text-center mt-2">
            WCF Agent can make mistakes. Verify the response. Read our{" "}
-          <a href="#" className="text-[#FFA200] hover:underline">
+          <a href="#" className="text-[#022e79] hover:underline">
             Privacy Policy
           </a>
           .

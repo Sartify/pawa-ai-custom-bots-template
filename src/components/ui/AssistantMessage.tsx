@@ -59,7 +59,7 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
     <>
       <div className="w-10 h-10 bg-white rounded flex justify-center items-center mr-3">
         <Image
-          src="/assets/logos/pawa-logo.png"
+          src="/pawa-logo.png"
           alt="AI Avatar"
           className="w-6 h-6 object-contain"
           loading="eager"

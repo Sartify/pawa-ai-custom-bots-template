@@ -1,132 +1,76 @@
-import { useState, useCallback } from 'react';
-import { Message } from '@/types/Message';
+import { useTutorChat } from "./useHandleSendMessage";
+import { Message, MessageFile } from "@/types/Message";
 
-interface ChatOptions {
-  model: string;
-}
+export function useChat() {
+  const {
+    messages,
+    loading,
+    error,
+    sendMessage,
+    clearHistory
+  } = useTutorChat();
 
-export const useChat = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isStreaming, setIsStreaming] = useState(false);
-  const [regeneratingMessageId, setRegeneratingMessageId] = useState<string | null>(null);
-  const [options, setOptions] = useState<ChatOptions>({ model: 'gpt-3.5-turbo' });
-  const [isReceivingChunks, setIsReceivingChunks] = useState(false);
-  const [hasPendingUploads, setHasPendingUploads] = useState(false);
-  const [webSearchingMessageId, setWebSearchingMessageId] = useState<string | null>(null);
-  const [isVoiceMode, setIsVoiceMode] = useState(false);
-
-  const clearMessages = useCallback(() => {
-    setMessages([]);
-  }, []);
-
-  const handleSendMessage = useCallback(async (
+  const handleSendMessage = async (
     text: string,
     model: string,
-    files?: File[],
+    files: MessageFile[] = [],
     isResubmit?: boolean,
     regenerateId?: string
   ) => {
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      role: 'user',
-      content: text,
-      timestamp: new Date(),
-    };
+    await sendMessage(text, files);
+  };
 
-    const assistantMessage: Message = {
-      id: (Date.now() + 1).toString(),
-      role: 'assistant',
-      content: '',
-      timestamp: new Date(),
-      isGenerating: true,
-    };
-
-    setMessages(prev => [...prev, userMessage, assistantMessage]);
-    setIsStreaming(true);
-    setIsReceivingChunks(true);
-
-    // Simulate streaming response
-    setTimeout(() => {
-      setMessages(prev => prev.map(msg => 
-        msg.id === assistantMessage.id 
-          ? { ...msg, content: 'This is a simulated response from the AI. In a real implementation, this would be the streaming response from your API.', isGenerating: false }
-          : msg
-      ));
-      setIsStreaming(false);
-      setIsReceivingChunks(false);
-    }, 2000);
-  }, []);
-
-  const handleResubmitMessage = useCallback((
+  const handleResubmitMessage = (
     newContent: string,
     userMessageId: string,
     assistantMessageId: string
   ) => {
-    setMessages(prev => prev.map(msg => {
-      if (msg.id === userMessageId) {
-        return { ...msg, content: newContent };
-      }
-      if (msg.id === assistantMessageId) {
-        return { ...msg, content: '', isGenerating: true };
-      }
-      return msg;
-    }));
+    // For now, just send the new content
+    sendMessage(newContent, []);
+  };
 
-    // Simulate regeneration
-    setTimeout(() => {
-      setMessages(prev => prev.map(msg => 
-        msg.id === assistantMessageId 
-          ? { ...msg, content: 'This is a simulated regenerated response.', isGenerating: false }
-          : msg
-      ));
-    }, 1500);
-  }, []);
+  const handleRegenerateResponse = (messageId: string) => {
+    // For now, just clear and resend the last user message
+    const lastUserMessage = messages
+      .filter(m => m.role === 'user')
+      .pop();
+    
+    if (lastUserMessage) {
+      sendMessage(lastUserMessage.content, []);
+    }
+  };
 
-  const handleRegenerateResponse = useCallback((messageId: string) => {
-    setRegeneratingMessageId(messageId);
-    setMessages(prev => prev.map(msg => 
-      msg.id === messageId 
-        ? { ...msg, content: '', isGenerating: true }
-        : msg
-    ));
+  const clearMessages = () => {
+    clearHistory();
+  };
 
-    // Simulate regeneration
-    setTimeout(() => {
-      setMessages(prev => prev.map(msg => 
-        msg.id === messageId 
-          ? { ...msg, content: 'This is a simulated regenerated response.', isGenerating: false }
-          : msg
-      ));
-      setRegeneratingMessageId(null);
-    }, 1500);
-  }, []);
-
-  const stopGeneration = useCallback(() => {
-    setIsStreaming(false);
-    setIsReceivingChunks(false);
-    setMessages(prev => prev.map(msg => ({ ...msg, isGenerating: false })));
-  }, []);
-
-  const handleVoiceToVoiceMessage = useCallback(() => {
-    setIsVoiceMode(!isVoiceMode);
-  }, [isVoiceMode]);
+  // Convert messages to the expected format
+  const convertedMessages = messages.map((msg, index) => ({
+    id: `msg-${index}`,
+    role: msg.from === 'user' ? 'user' as const : 'assistant' as const,
+    content: msg.text,
+    timestamp: new Date(),
+    isGenerating: loading && index === messages.length - 1 && msg.from === 'agent',
+    error: false,
+    hasPendingUploads: false,
+  }));
 
   return {
-    messages,
-    isStreaming,
+    messages: convertedMessages,
+    isStreaming: loading,
     clearMessages,
-    regeneratingMessageId,
+    regeneratingMessageId: null,
     handleSendMessage,
     handleResubmitMessage,
     handleRegenerateResponse,
-    options,
-    setOptions,
-    stopGeneration,
-    isReceivingChunks,
-    hasPendingUploads,
-    setHasPendingUploads,
-    webSearchingMessageId,
-    handleVoiceToVoiceMessage,
-    isVoiceMode,
+    options: { model: "default" },
+    setOptions: () => {},
+    stopGeneration: () => {},
+    isReceivingChunks: loading,
+    hasPendingUploads: false,
+    setHasPendingUploads: () => {},
+    webSearchingMessageId: null,
+    handleVoiceToVoiceMessage: () => {},
+    isVoiceMode: false,
   };
-}; 
+} 
