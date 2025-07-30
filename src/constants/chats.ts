@@ -1,0 +1,1 @@
+export const INACTIVITY_TIMEOUT = 8 * 60 * 60 * 1000; 

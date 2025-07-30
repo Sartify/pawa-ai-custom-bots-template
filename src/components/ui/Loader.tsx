@@ -3,10 +3,10 @@ import Image from "next/image";
 
 export const LoadingDots: React.FC = () => {
   return (
-    <div className="flex flex-col bg-[#1c1a1a] items-center justify-center space-y-1 rounded-[5px] py-1 px-2 shadow-lg">
+    <div className="flex flex-col bg-gray-300 items-center justify-center space-y-1 rounded-[5px] py-1 px-2 shadow-lg">
       <div className="w-6 h-6 relative">
         <Image
-          src="/assets/pawa-logo.png"
+          src="/pawa-logo.png"
           alt="Loading Logo"
           fill
           sizes="24px"

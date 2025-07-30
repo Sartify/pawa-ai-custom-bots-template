@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Markdown from "@/components/markdown";
 import { FileAttachmentGrid } from "./FileAttachmentGrid";
-import { MicRecorderButton } from "@/components/ui/micRecorderButton";
+import { MicRecorderButton } from "./micRecorderButton";
 
 interface UserMessageProps {
   message: any;

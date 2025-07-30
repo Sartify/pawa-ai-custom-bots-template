@@ -1,7 +1,5 @@
-import "katex/dist/katex.min.css";
 import { FC, memo, ReactNode, ComponentPropsWithoutRef, useState } from "react";
 import ReactMarkdown, { Options } from "react-markdown";
-import rehypeKatex from "rehype-katex";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import { CodeBlockRender } from "./codeblock";
@@ -39,20 +37,20 @@ type TableCellProps = {
 const MemoizedReactMarkdown: FC<Options> = memo(
   ReactMarkdown,
   (prevProps, nextProps) =>
-    prevProps.children === nextProps.children &&
-    prevProps.className === nextProps.className,
+    prevProps.children === nextProps.children,
 );
 
 const preprocessLaTeX = (content: string) => {
   if (!content) return '';
   
+  // Convert LaTeX to simple display format for now
   const blockProcessedContent = content.replace(
     /\\\[([\s\S]*?)\\\]/g,
-    (_, equation) => `$$${equation}$$`,
+    (_, equation) => `**Math Block:** ${equation}`,
   );
   const inlineProcessedContent = blockProcessedContent.replace(
     /\\\(([\s\S]*?)\\\)/g,
-    (_, equation) => `$${equation}$`,
+    (_, equation) => `**Math:** ${equation}`,
   );
   return inlineProcessedContent;
 };
@@ -123,7 +121,7 @@ const preprocessContent = (content: string | undefined | null) => {
 };
 
 interface MarkdownProps {
-  content?: string;
+  content: string;
   darkMode?: boolean;
 }
 
@@ -150,13 +148,13 @@ const CollapsibleDetails = ({ children, summary }: { children: ReactNode, summar
 };
 
 interface CustomImageProps {
-  src?: string;
+  src?: string | Blob;
   alt?: string;
   [key: string]: unknown;
 }
 
 const CustomImage = ({ src, alt, ...props }: CustomImageProps) => {
-  if (!src) return null;
+  if (!src || typeof src !== 'string') return null;
   
   return (
     <div className="my-4 relative">
@@ -181,10 +179,8 @@ export default function Markdown({ content = '', darkMode = false }: MarkdownPro
 
   return (
     <MemoizedReactMarkdown
-      className={`prose ${darkMode ? 'dark:prose-invert' : ''} prose-p:leading-relaxed prose-pre:p-0 prose-li:my-0 break-words custom-markdown`}
       remarkPlugins={[remarkGfm, remarkMath]}
       rehypePlugins={[
-        rehypeKatex,
         rehypeSlug,
         [rehypeAutolinkHeadings, { behavior: 'wrap' }]
       ]}

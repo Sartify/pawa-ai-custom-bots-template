@@ -12,19 +12,19 @@ export const Header: React.FC<HeaderProps> = ({
   onNewChat,
 }) => {
   return (
-    <header className="flex justify-between items-center p-2 sm:p-4 sticky top-0 bg-[#2F2D2D] z-10">
+    <header className="flex justify-between items-center p-2 sm:p-4 sticky top-0 bg-white z-10">
       <div className="flex items-center gap-2">
         <Link href="/">
           <div className="flex items-center gap-2 cursor-pointer">
             <Image
-              src="/assets/pawa-logo.png"
+              src="/pawa-logo.png"
               height={50}
               width={69}
               alt="Pawa Logo"
               className="w-14 h-10 md:w-14 md:h-10 lg:w-16 lg:h-12 max-[300px]:h-8 max-[300px]:w-10"
             />
-            <span className="text-[#FFA200] font-semibold text-base sm:text-lg hidden sm:inline">
-              Pawa Chat
+            <span className="text-[#022e79] font-semibold text-base sm:text-lg hidden sm:inline font-avenir">
+              WCF Agent
             </span>
           </div>
         </Link>
@@ -32,8 +32,7 @@ export const Header: React.FC<HeaderProps> = ({
 
       <h1 className="text-lg font-semibold flex items-center">
         <span
-          className="text-gray-300 truncate max-w-[50vw] sm:max-w-xs md:max-w-sm lg:max-w-md"
-          style={{ fontFamily: "Avenir-Medium" }}
+          className="text-[#022e79] truncate max-w-[50vw] sm:max-w-xs md:max-w-sm lg:max-w-md font-avenir-medium"
         >
           New Chat
         </span>
@@ -43,11 +42,10 @@ export const Header: React.FC<HeaderProps> = ({
         <Button
           variant="outline"
           onClick={onNewChat}
-          className="text-white border-zinc-600 flex items-center gap-2 px-2 sm:px-4 h-8 sm:h-10"
+          className="text-[#022e79] border-[#022e79] hover:bg-[#022e79] hover:text-white flex items-center gap-2 px-2 sm:px-4 h-8 sm:h-10 rounded-sm"
         >
           <span
-            className="hidden sm:inline"
-            style={{ fontFamily: "Avenir-Medium" }}
+            className="hidden sm:inline font-avenir-medium"
           >
             New Chat
           </span>
@@ -57,11 +55,10 @@ export const Header: React.FC<HeaderProps> = ({
         <Link href="/dev">
           <Button
             variant="outline"
-            className="border-[#DC8F0A] text-white px-2 sm:px-4 h-8 sm:h-10"
+            className="border-[#022e79] text-[#022e79] hover:bg-[#022e79] hover:text-white px-2 sm:px-4 h-8 sm:h-10 rounded-sm"
           >
             <span
-              className="hidden sm:inline"
-              style={{ fontFamily: "Avenir-Medium" }}
+              className="hidden sm:inline font-avenir-medium"
             >
               Build your Ai
             </span>

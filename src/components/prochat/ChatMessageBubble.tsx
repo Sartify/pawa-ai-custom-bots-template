@@ -1,12 +1,11 @@
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import { useCopyToClipboard } from "@/components/copy-to-clipboard";
-import { useSpeech } from "@/hooks/useSpeech";
-import { Message } from "@/types/chat";
-import { UserMessage } from "./UserMessage";
-import { AssistantMessage } from "./AssistantMessage";
-import { ShareModal } from "../ShareContainer";
-import { FilePreviewModel } from "./FilePreviewModel";
+import { Message } from "@/types/Message";
+import { UserMessage } from "../ui/UserMessage";
+import { AssistantMessage } from "../ui/AssistantMessage";
+import { FilePreviewModel } from "../ui/FilepreviewModel";
+import { useSpeech } from "@/hook/useSpeech";
 
 interface MessageBubbleProps {
   message: Message;
@@ -184,12 +183,12 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         )}
       </div>
 
-      <ShareModal
+      {/* <ShareModal
         isOpen={isShareModalOpen}
         onClose={handleCloseShareModal}
         userMessage={isUser ? message : getPairedUserMessage()}
         aiResponse={!isUser ? message : null}
-      />
+      /> */}
 
       <FilePreviewModel
         previewFile={previewFile}

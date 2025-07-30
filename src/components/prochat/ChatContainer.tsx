@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { MessageList } from "./ChatMessageList";
-import { useChat } from "@/hooks/useChat";
+import { useChat } from "@/hook/useChat";
 import TutorEmptyState from "./ChatEmptyState";
 import { LoadingDots } from "../ui/Loader";
 import { Header } from "./ChatContainerHeader";
@@ -11,7 +11,6 @@ export const ChatContainer: React.FC = () => {
   const {
     messages,
     isStreaming,
-    // setMessages,
     clearMessages,
     regeneratingMessageId,
     handleSendMessage,
@@ -88,7 +87,7 @@ export const ChatContainer: React.FC = () => {
         </div>
         <div className="flex-shrink-0 px-4 pb-4">
           <p className="text-xs text-gray-500 text-center mt-2">
-            Pawa Chat can make mistakes. Verify the response. Read our{" "}
+            WCF Agent can make mistakes. Verify the response. Read our{" "}
             <a href="#" className="text-[#FFA200] hover:underline">
               Privacy Policy
             </a>
@@ -118,7 +117,7 @@ export const ChatContainer: React.FC = () => {
           disabled={isStreaming}
         />
         <p className="text-xs text-gray-500 text-center mt-2">
-          Pawa Chat can make mistakes. Verify the response. Read our{" "}
+           WCF Agent can make mistakes. Verify the response. Read our{" "}
           <a href="#" className="text-[#FFA200] hover:underline">
             Privacy Policy
           </a>
@@ -129,20 +128,20 @@ export const ChatContainer: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-[#022e79]">
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
+      <div className="flex-1 flex flex-col min-w-0 bg-white">
         {/* Header */}
-        <div className="flex-shrink-0 px-4 md:px-8 lg:px-10">
+        <div className="flex-shrink-0 px-4 md:px-8 lg:px-10 bg-white">
           <Header
             onNewChat={handleNewChat}
           />
         </div>
 
         {/* Chat Content */}
-        <main className="flex-1 flex justify-center min-h-0">
+        <main className="flex-1 flex justify-center min-h-0 bg-white">
           <div
-            className="h-full w-full mx-auto px-2 sm:px-4 max-w-4xl"
+            className="h-full w-full mx-auto px-2 sm:px-4 max-w-4xl bg-white"
             style={{ maxWidth: "896px" }}
           >
             {renderContent()}

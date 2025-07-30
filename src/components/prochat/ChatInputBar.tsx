@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { AudioLines, Paperclip, Send } from "lucide-react";
-import { useVoiceRecording } from "@/hooks/useSpeechtoText";
 import { MessageFile } from "@/types/Message";
-import { FileUploadHandle } from "../ui/FileUpload";
+import FileUpload, { FileUploadHandle } from "../ui/FileUpload";
+import { useVoiceRecording } from "@/hook/useSpeechToText";
 
 type ChatInputProps = {
   onSend: (message: string, files: MessageFile[]) => void;
@@ -95,7 +95,7 @@ export default function ChatInput({
           <button
             type="submit"
             disabled={disabled}
-            className="ml-2 h-8 w-8 flex items-center justify-center bg-[#37DD0A] rounded-md hover:bg-green-600 transition"
+            className="ml-2 h-8 w-8 flex items-center justify-center bg-[#022e79] rounded-md hover:bg-blue-900 transition"
           >
             <Send className="w-4 h-4 text-white" />
           </button>
