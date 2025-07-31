@@ -53,4 +53,4 @@ export const navItems: NavItem[] = [
     icon: <Zap size={20} />,
     description: 'Plugins and advanced tools'
   }
-]; 
+];

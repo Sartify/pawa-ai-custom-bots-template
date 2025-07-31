@@ -12,15 +12,12 @@ interface MessageBubbleProps {
   isEditingDisabled: boolean;
   isGenerating: boolean;
   onResubmitMessage?: (newContent: string, messageId: string) => void;
-  onRegenerateResponse?: () => void;
   getLastUserMessage?: () => Message | null;
   onStopGeneration?: () => void;
   hasPendingUploads?: boolean;
   isWebSearching?: boolean;
   currentlyEditingMessageId: string | null;
   setCurrentlyEditingMessageId: (id: string | null) => void;
-  regeneratingMessageId: string | null;
-  disableRegenerate: boolean;
 }
 
 export const MessageBubble: React.FC<MessageBubbleProps> = ({
@@ -28,13 +25,10 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
   isGenerating,
   isEditingDisabled,
   onResubmitMessage,
-  onRegenerateResponse,
   getLastUserMessage,
   isWebSearching,
   currentlyEditingMessageId,
   setCurrentlyEditingMessageId,
-  regeneratingMessageId,
-  disableRegenerate,
 }) => {
   const isUser = message.role === "user";
 
@@ -159,7 +153,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
               currentlyEditingMessageId !== null &&
               currentlyEditingMessageId !== message.id
             }
-            isAnyRegenerating={Boolean(regeneratingMessageId)}
+            isAnyRegenerating={false}
             isGenerating={isGenerating}
           />
         ) : (
@@ -171,14 +165,10 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             showActions={showActions}
             isCopied={isCopied}
             handleCopy={() => copyToClipboard(message.content)}
-            isRegeneratingThisMessage={regeneratingMessageId === message.id}
-            handleRegenerate={onRegenerateResponse ?? (() => {})}
-            disableRegenerate={disableRegenerate}
             speechLoading={speechLoading}
             isPlaying={isPlaying}
             isOtherPlaying={isOtherPlaying}
             speechHandlePlay={handlePlayPause}
-            handleShare={() => setIsShareModalOpen(true)}
           />
         )}
       </div>

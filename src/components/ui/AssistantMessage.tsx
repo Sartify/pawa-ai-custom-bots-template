@@ -1,18 +1,16 @@
 "use client";
 import React from "react";
-import Image from "next/image";
 import Markdown from "@/components/markdown";
 import { ActionButton } from "./ActionButton";
 import {
   Copy,
   Check,
-  RotateCcw,
-  Share2,
   Loader2,
   Search,
   Volume2,
   CircleAlert,
   Pause,
+  Bot,
 } from "lucide-react";
 import { LoadingDots } from "@/components/ui/Loader";
 import { Message } from "@/types/Message";
@@ -26,14 +24,10 @@ interface AssistantMessageProps {
   showActions: boolean;
   isCopied: boolean;
   handleCopy: () => void;
-  isRegeneratingThisMessage: boolean;
-  handleRegenerate: () => void;
-  disableRegenerate: boolean;
   speechLoading: boolean;
   isPlaying: boolean;
   isOtherPlaying: boolean;
   speechHandlePlay: () => void;
-  handleShare: () => void;
 }
 
 export const AssistantMessage: React.FC<AssistantMessageProps> = ({
@@ -44,33 +38,23 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
   showActions,
   isCopied,
   handleCopy,
-  isRegeneratingThisMessage,
-  handleRegenerate,
-  disableRegenerate,
   speechLoading,
   isPlaying,
   isOtherPlaying,
   speechHandlePlay,
-  handleShare,
 }) => {
   const isErrorMessage = message.error === true;
 
   return (
     <>
       <div className="w-10 h-10 bg-white rounded flex justify-center items-center mr-3">
-        <Image
-          src="/pawa-logo.png"
-          alt="AI Avatar"
-          className="w-6 h-6 object-contain"
-          loading="eager"
-          width={24}
-          height={24}
-          priority
+        <Bot
+          className="w-6 h-6 text-[#022e79]"
         />
       </div>
 
       <div className="relative max-w-[80%] w-full">
-        <div className="whitespace-pre-wrap break-words break-all text-white">
+        <div className="whitespace-pre-wrap break-words break-all text-black">
           <div className="text-[0.9rem] overflow-hidden break-words break-all">
             {isErrorMessage ? (
               <div className="flex items-center gap-3 bg-red-800/30 border border-red-500 text-red-200 rounded-lg p-4 shadow-lg">
@@ -109,9 +93,9 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
             <ActionButton
               icon={
                 isCopied ? (
-                  <Check className="w-[13px] h-[13px]" color="#FFA200" />
+                  <Check className="w-[13px] h-[13px]" color="#022e79" />
                 ) : (
-                  <Copy className="w-[13px] h-[13px]" color="#FFA200" />
+                  <Copy className="w-[13px] h-[13px]" color="#022e79" />
                 )
               }
               tooltipText={isCopied ? "Copied!" : "Copy Message"}
@@ -120,35 +104,15 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
 
             <ActionButton
               icon={
-                isRegeneratingThisMessage ? (
-                  <Loader2
-                    className="w-[13px] h-[13px] animate-spin"
-                    color="#FFA200"
-                  />
-                ) : (
-                  <RotateCcw className="w-[13px] h-[13px]" color="#FFA200" />
-                )
-              }
-              tooltipText={
-                isRegeneratingThisMessage
-                  ? "Regenerating..."
-                  : "Regenerate Answer"
-              }
-              onClick={handleRegenerate}
-              disabled={disableRegenerate}
-            />
-
-            <ActionButton
-              icon={
                 speechLoading ? (
                   <Loader2
                     className="w-[13px] h-[13px] animate-spin"
-                    color="#FFA200"
+                    color="#022e79"
                   />
                 ) : isPlaying ? (
-                  <Pause className="w-[13px] h-[13px]" color="#FFA200" />
+                  <Pause className="w-[13px] h-[13px]" color="#022e79" />
                 ) : (
-                  <Volume2 className="w-[13px] h-[13px]" color="#FFA200" />
+                  <Volume2 className="w-[13px] h-[13px]" color="#022e79" />
                 )
               }
               tooltipText={
@@ -162,12 +126,6 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
               }
               onClick={speechHandlePlay}
               disabled={isOtherPlaying}
-            />
-
-            <ActionButton
-              icon={<Share2 className="w-[13px] h-[13px]" color="#FFA200" />}
-              tooltipText="Share Message"
-              onClick={handleShare}
             />
           </div>
         )}

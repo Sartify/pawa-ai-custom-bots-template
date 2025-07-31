@@ -7,13 +7,11 @@ interface MessageListProps {
   messages: Message[];
   isStreaming: boolean;
   isLoading?: boolean;
-  regeneratingMessageId: string | null;
   onResubmitMessage?: (
     newContent: string,
     messageId: string,
     assistantMessageId: string
   ) => void;
-  onRegenerateResponse?: (messageId: string) => void;
   onStopGeneration?: () => void;
 
   hasPendingUploads?: boolean;
@@ -27,9 +25,7 @@ export const MessageList: React.FC<MessageListProps> = ({
   messages,
   isStreaming,
   isLoading = false,
-  regeneratingMessageId,
   onResubmitMessage,
-  onRegenerateResponse,
   onStopGeneration,
   hasPendingUploads,
   webSearchingMessageId,
@@ -54,15 +50,7 @@ export const MessageList: React.FC<MessageListProps> = ({
     }
   }, [messages, autoScrollEnabled]);
 
-  useEffect(() => {
-    if (!regeneratingMessageId) return;
-    if (!autoScrollEnabled) return;
 
-    const el = messageRefs.current[regeneratingMessageId];
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "center" });
-    }
-  }, [messages, regeneratingMessageId, autoScrollEnabled]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -134,14 +122,11 @@ export const MessageList: React.FC<MessageListProps> = ({
                 onResubmitMessage?.(newContent, messageId, assistantMessage.id);
               }
             }}
-            onRegenerateResponse={() => onRegenerateResponse?.(message.id)}
             getLastUserMessage={() => getLastUserMessageForAI(index)}
             hasPendingUploads={hasPendingUploads}
             isWebSearching={message.id === webSearchingMessageId}
             currentlyEditingMessageId={currentlyEditingMessageId}
             setCurrentlyEditingMessageId={setCurrentlyEditingMessageId}
-            regeneratingMessageId={regeneratingMessageId}
-            disableRegenerate={isStreaming || Boolean(regeneratingMessageId)}
           />
         </div>
       ))}

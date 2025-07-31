@@ -1,5 +1,6 @@
 "use client";
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { fetchTTSAudio } from '@/services/voiceService';
 
 interface UseSpeechOptions {
   text: string;
@@ -10,23 +11,46 @@ export const useSpeech = ({ text, messageId }: UseSpeechOptions) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isOtherPlaying, setIsOtherPlaying] = useState(false);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  const handlePlayPause = useCallback(() => {
+  const handlePlayPause = useCallback(async () => {
     if (isPlaying) {
-      setIsPlaying(false);
+      // Pause audio
+      if (audioRef.current) {
+        audioRef.current.pause();
+        setIsPlaying(false);
+      }
     } else {
-      setIsLoading(true);
-      // Simulate speech loading
-      setTimeout(() => {
-        setIsLoading(false);
-        setIsPlaying(true);
-        // Simulate speech ending
-        setTimeout(() => {
+      try {
+        setIsLoading(true);
+        
+        // Fetch TTS audio
+        const response = await fetchTTSAudio(text);
+        const audioBlob = await response.blob();
+        const audioUrl = URL.createObjectURL(audioBlob);
+        
+        // Create and play audio
+        if (audioRef.current) {
+          audioRef.current.pause();
+        }
+        
+        audioRef.current = new Audio(audioUrl);
+        audioRef.current.onended = () => {
           setIsPlaying(false);
-        }, 3000);
-      }, 1000);
+          URL.revokeObjectURL(audioUrl);
+        };
+        
+        await audioRef.current.play();
+        setIsPlaying(true);
+        setIsLoading(false);
+        
+      } catch (error) {
+        console.error('TTS Error:', error);
+        setIsLoading(false);
+        setIsPlaying(false);
+      }
     }
-  }, [isPlaying]);
+  }, [isPlaying, text]);
 
   return {
     isLoading,

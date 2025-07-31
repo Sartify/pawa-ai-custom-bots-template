@@ -42,7 +42,6 @@ const DocumentationStructure: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        {/* Top Navbar */}
         <TopNavbar
           activeTab={activeTab}
           navItems={navItems}

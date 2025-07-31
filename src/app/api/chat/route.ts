@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     console.log("......Headers:", { contentType });
 
     if (!contentType.includes("multipart/form-data")) {
-    console.warn(".... incase of wrong Headers:", { contentType });
+      console.warn(".... incase of wrong Headers:", { contentType });
       return NextResponse.json(
         { error: "Content-Type must be multipart/form-data" },
         { status: 400 }
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
     }
 
     const forwardForm = new FormData();
-    forwardForm.append("message", message); // Changed from "text" to "message"
+    forwardForm.append("message", message);
     rawFiles.forEach((file) => {
       forwardForm.append("file", file);
     });
@@ -47,11 +47,10 @@ export async function POST(req: NextRequest) {
       fileNames: rawFiles.map(f => f.name)
     });
 
-    const apiUrl = `${process.env.API_BASE_URL}${process.env.API_CHAT_ENDPOINT}`;
-
+    const apiUrl = `${process.env.API_BASE_URL}${process.env.API_CHAT_STREAM_ENDPOINT}`;
     console.log("......urllll:", apiUrl);
-
     console.log("......Sending request to external API...");
+
     const response = await fetch(apiUrl, {
       method: "POST",
       body: forwardForm,
@@ -71,22 +70,28 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const responseText = await response.text();
-    console.log("......External API response body:", responseText);
+    console.log("......[API ROUTE] About to return streaming response");
+    console.log("......[API ROUTE] Response body type:", typeof response.body);
+    console.log("......[API ROUTE] Response body readable:", !!response.body);
+    console.log("......[API ROUTE] Response headers:", Object.fromEntries(response.headers.entries()));
 
-    // Try to parse the response as JSON
-    try {
-      const responseData = JSON.parse(responseText);
-      console.log("......Parsed response data:", responseData);
-      return NextResponse.json(responseData);
-    } catch (parseError) {
-      console.log("......Response is not JSON, returning as text");
-      // If it's not JSON, return it as a text response
-      return NextResponse.json({
-        role: "assistant",
-        content: responseText
-      });
-    }
+    // Return the streaming response directly
+    const streamingResponse = new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+        ...Object.fromEntries(response.headers.entries())
+      },
+    });
+
+    console.log("......[API ROUTE] Created streaming response");
+    console.log("......[API ROUTE] Streaming response headers:", Object.fromEntries(streamingResponse.headers.entries()));
+    
+    return streamingResponse;
+
   } catch (err) {
     console.error("Error in chat API route:", err);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });

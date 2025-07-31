@@ -1,6 +1,7 @@
 import React from 'react';
-import { Menu } from 'lucide-react';
+import { Menu, MessageCircle } from 'lucide-react';
 import { NavItem } from './types';
+import Link from 'next/link';
 
 interface TopNavbarProps {
   activeTab: string;
@@ -43,10 +44,13 @@ const TopNavbar: React.FC<TopNavbarProps> = ({
 
         {/* Right Side Actions */}
         <div className="flex items-center space-x-2">
-          <div className="hidden md:flex items-center space-x-2">
-            <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-            <span className="text-gray-500 text-sm">Online</span>
-          </div>
+          <Link 
+            href="/chat"
+            className="hidden md:flex items-center space-x-2 px-3 py-2 bg-[#022e79] text-white rounded-lg hover:bg-[#022e79]/90 transition-colors duration-200 font-medium text-sm"
+          >
+            <MessageCircle size={16} />
+            <span>Continue to Chat</span>
+          </Link>
         </div>
       </div>
     </nav>

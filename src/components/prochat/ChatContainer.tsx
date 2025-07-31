@@ -12,10 +12,8 @@ export const ChatContainer: React.FC = () => {
     messages,
     isStreaming,
     clearMessages,
-    regeneratingMessageId,
     handleSendMessage,
     handleResubmitMessage,
-    handleRegenerateResponse,
     options,
     setOptions,
     stopGeneration,
@@ -51,10 +49,7 @@ export const ChatContainer: React.FC = () => {
     setAutoScrollTrigger((t) => t + 1);
   };
 
-  const handleRegenerateResponseAndScroll = (messageId: string) => {
-    handleRegenerateResponse(messageId);
-    setAutoScrollTrigger((t) => t + 1);
-  };
+
 
   useEffect(() => {
     const timer = setTimeout(() => setIsInitialLoading(false), 1000);
@@ -102,9 +97,7 @@ export const ChatContainer: React.FC = () => {
           <MessageList
             messages={messages}
             isStreaming={isStreaming}
-            regeneratingMessageId={regeneratingMessageId}
             onResubmitMessage={handleResubmitMessageAndScroll}
-            onRegenerateResponse={handleRegenerateResponseAndScroll}
             enableAutoScrollTrigger={autoScrollTrigger}
             hasPendingUploads={hasPendingUploads}
             webSearchingMessageId={webSearchingMessageId}

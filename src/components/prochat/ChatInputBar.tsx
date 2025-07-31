@@ -20,6 +20,7 @@ export default function ChatInput({
 }: ChatInputProps) {
   const [message, setMessage] = useState("");
   const [files, setFiles] = useState<MessageFile[]>([]);
+  const [resetTrigger, setResetTrigger] = useState(false);
   const fileUploadRef = useRef<FileUploadHandle>(null);
   const handleTranscription = (text: string) => {
     setMessage(text);
@@ -38,6 +39,8 @@ export default function ChatInput({
     onSend(message.trim(), files);
     setMessage("");
     setFiles([]);
+    // Reset file upload to close any open modals
+    setResetTrigger(prev => !prev);
   };
 
   const handlePaperclipClick = () => {
@@ -51,7 +54,7 @@ export default function ChatInput({
           ref={fileUploadRef}
           onFilesChange={setFiles}
           disabled={disabled}
-          resetTrigger={false}
+          resetTrigger={resetTrigger}
         />
       </div>
       <form
