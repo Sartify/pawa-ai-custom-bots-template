@@ -26,3 +26,7 @@ class UserRequestTTS(BaseModel):
                          example="Habari yako?", 
                          description="The message sent by the user to the chatbot for text-to-speech conversion."
                          )
+
+
+class TextToSpeechRequest(BaseModel):
+    text: str
