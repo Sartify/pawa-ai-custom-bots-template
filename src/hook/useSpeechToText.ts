@@ -61,7 +61,7 @@ async function convertWebMToWav(webmBlob: Blob): Promise<Blob> {
   return new Blob([wavData], { type: 'audio/wav' });
 }
 
-// ✅ NEW: Accepts callback for final text
+
 export function useVoiceRecording(onTranscription: (text: string) => void) {
   const [isRecording, setIsRecording] = useState(false);
   const [error, setError] = useState<string | null>(null);

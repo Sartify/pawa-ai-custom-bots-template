@@ -18,7 +18,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`p-1 hover:bg-gray-700 rounded transition-colors ${
+      className={`group p-1 hover:bg-[#022e79] rounded transition-colors ${
         disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
       }`}
       title={tooltipText}

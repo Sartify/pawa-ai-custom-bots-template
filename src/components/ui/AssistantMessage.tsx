@@ -93,9 +93,9 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
             <ActionButton
               icon={
                 isCopied ? (
-                  <Check className="w-[13px] h-[13px]" color="#022e79" />
+                  <Check className="w-[13px] h-[13px] text-[#022e79] group-hover:text-white transition-colors" />
                 ) : (
-                  <Copy className="w-[13px] h-[13px]" color="#022e79" />
+                  <Copy className="w-[13px] h-[13px] text-[#022e79] group-hover:text-white transition-colors" />
                 )
               }
               tooltipText={isCopied ? "Copied!" : "Copy Message"}
@@ -106,13 +106,12 @@ export const AssistantMessage: React.FC<AssistantMessageProps> = ({
               icon={
                 speechLoading ? (
                   <Loader2
-                    className="w-[13px] h-[13px] animate-spin"
-                    color="#022e79"
+                    className="w-[13px] h-[13px] animate-spin text-[#022e79] group-hover:text-white transition-colors"
                   />
                 ) : isPlaying ? (
-                  <Pause className="w-[13px] h-[13px]" color="#022e79" />
+                  <Pause className="w-[13px] h-[13px] text-[#022e79] group-hover:text-white transition-colors" />
                 ) : (
-                  <Volume2 className="w-[13px] h-[13px]" color="#022e79" />
+                  <Volume2 className="w-[13px] h-[13px] text-[#022e79] group-hover:text-white transition-colors" />
                 )
               }
               tooltipText={

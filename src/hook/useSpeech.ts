@@ -23,11 +23,14 @@ export const useSpeech = ({ text, messageId }: UseSpeechOptions) => {
     } else {
       try {
         setIsLoading(true);
+        console.log("[TTS] Starting text-to-speech for:", text);
         
         // Fetch TTS audio
         const response = await fetchTTSAudio(text);
         const audioBlob = await response.blob();
         const audioUrl = URL.createObjectURL(audioBlob);
+        
+        console.log("[TTS] Audio blob created, size:", audioBlob.size);
         
         // Create and play audio
         if (audioRef.current) {
@@ -36,16 +39,25 @@ export const useSpeech = ({ text, messageId }: UseSpeechOptions) => {
         
         audioRef.current = new Audio(audioUrl);
         audioRef.current.onended = () => {
+          console.log("[TTS] Audio playback ended");
           setIsPlaying(false);
+          URL.revokeObjectURL(audioUrl);
+        };
+        
+        audioRef.current.onerror = (error) => {
+          console.error("[TTS] Audio playback error:", error);
+          setIsPlaying(false);
+          setIsLoading(false);
           URL.revokeObjectURL(audioUrl);
         };
         
         await audioRef.current.play();
         setIsPlaying(true);
         setIsLoading(false);
+        console.log("[TTS] Audio playback started");
         
       } catch (error) {
-        console.error('TTS Error:', error);
+        console.error('[TTS] Error:', error);
         setIsLoading(false);
         setIsPlaying(false);
       }

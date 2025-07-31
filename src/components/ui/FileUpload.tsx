@@ -107,12 +107,12 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
               <div
                 key={index}
                 onClick={() => !file.loading && setPreviewFile(file.file)}
-                className="relative flex items-center bg-[#F0F7F4] rounded-md overflow-hidden border border-b rounded-full min-w-[140px] max-w-[160px]"
+                className="relative flex items-center bg-gray-50 rounded-md overflow-hidden border border-gray-200 rounded-full min-w-[140px] max-w-[160px] hover:bg-gray-100 transition-colors"
               >
                 <div className="relative w-12 h-12 flex-shrink-0 overflow-hidden">
                   {file.loading ? (
                     <div className="flex items-center justify-center w-full h-full">
-                      <Loader2 className="animate-spin text-gray-300 w-4 h-4" />
+                      <Loader2 className="animate-spin text-[#022e79] w-4 h-4" />
                     </div>
                   ) : isImage(file.file) ? (
                     <img
@@ -121,7 +121,7 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                       className="object-cover w-full h-full"
                     />
                   ) : (
-                    <div className="flex items-center border border-gray justify-center w-full h-full text-black text-xs">
+                    <div className="flex items-center border border-gray-300 justify-center w-full h-full text-[#022e79] text-xs font-medium">
                       {file.file.name.slice(0, 2).toUpperCase()}
                     </div>
                   )}
@@ -132,16 +132,16 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                       e.stopPropagation();
                       removeFile(index);
                     }}
-                    className="absolute top-0 right-0 bg-[#37DD0A] hover:bg-[#FF4E4E] text-white rounded-full p-[2px] m-[2px]"
+                    className="absolute top-0 right-0 bg-[#022e79] hover:bg-red-500 text-white rounded-full p-[2px] m-[2px] transition-colors"
                     disabled={disabled}
                   >
                     <X size={10} />
                   </button>
                 </div>
 
-                <div className="flex flex-col justify-center px-2 py-1 text-black text-[0.7rem] truncate">
-                  <p className="truncate max-w-[120px]">{file.file.name}</p>
-                  <p className="text-gray-400">
+                <div className="flex flex-col justify-center px-2 py-1 text-gray-700 text-[0.7rem] truncate">
+                  <p className="truncate max-w-[120px] font-medium">{file.file.name}</p>
+                  <p className="text-gray-500">
                     {formatFileSize(file.file.size)}
                   </p>
                 </div>
@@ -153,9 +153,9 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                 type="button"
                 onClick={triggerFilePicker}
                 disabled={disabled}
-                className="w-12 h-12 rounded-md border border-dashed border-[#37DD0A] flex items-center justify-center hover:bg-[#F0F7F4]"
+                className="w-12 h-12 rounded-md border border-dashed border-[#022e79] flex items-center justify-center hover:bg-gray-50 transition-colors"
               >
-                <Plus className="text-[#37DD0A]" size={20} />
+                <Plus className="text-[#022e79]" size={20} />
               </button>
             )}
           </div>
@@ -167,12 +167,12 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
             onClick={() => setPreviewFile(null)}
           >
             <div
-              className="relative max-w-full max-h-full p-4 bg-[#2e2e2e] rounded-md shadow-lg"
+              className="relative max-w-full max-h-full p-4 bg-white rounded-md shadow-lg"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={() => setPreviewFile(null)}
-                className="absolute top-4 right-4 text-white bg-[#2e2e2e] hover:bg-[#FF4E4E] rounded-full p-2"
+                className="absolute top-4 right-4 text-gray-600 bg-white hover:bg-gray-100 rounded-full p-2 transition-colors"
               >
                 <X size={18} />
               </button>
@@ -190,15 +190,15 @@ const FileUpload = forwardRef<FileUploadHandle, FileUploadProps>(
                   className="w-full max-w-4xl h-[80vh] rounded-sm"
                 />
               ) : (
-                <div className="text-white text-center max-w-xs mx-auto">
-                  <p className="mb-2 text-lg">{previewFile.name}</p>
-                  <p className="text-gray-400 mb-4">
-                    This file type preview is not supported try downloading{" "}
+                <div className="text-gray-700 text-center max-w-xs mx-auto">
+                  <p className="mb-2 text-lg font-medium">{previewFile.name}</p>
+                  <p className="text-gray-500 mb-4">
+                    This file type preview is not supported. Try downloading the file.
                   </p>
                   <a
                     href={previewUrl}
                     download={previewFile.name}
-                    className="inline-block px-4 py-2 bg-[#D98C06] text-black rounded-md hover:bg-[#FFA200] transition"
+                    className="inline-block px-4 py-2 bg-[#022e79] text-white rounded-md hover:bg-[#022e79]/90 transition-colors"
                   >
                     Download
                   </a>

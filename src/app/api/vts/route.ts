@@ -5,6 +5,9 @@ export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const file = formData.get("file");
+    const model = formData.get("model") as string;
+    const language = formData.get("language") as string;
+    const temperature = formData.get("temperature") as string;
 
     if (!file || !(file instanceof Blob)) {
       console.error("[VTS] Missing or invalid file:", file);
@@ -16,10 +19,16 @@ export async function POST(req: NextRequest) {
       name: (file as File).name,
       type: file.type,
       size: file.size,
+      model,
+      language,
+      temperature
     });
 
     const upstreamForm = new FormData();
     upstreamForm.set("file", file);
+    upstreamForm.set("model", model);
+    upstreamForm.set("language", language);
+    upstreamForm.set("temperature", temperature);
 
     const upstreamResponse = await fetch(upstreamUrl, {
       method: "POST",

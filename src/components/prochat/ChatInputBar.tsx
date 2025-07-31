@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { AudioLines, Paperclip, Send } from "lucide-react";
 import { MessageFile } from "@/types/Message";
 import FileUpload, { FileUploadHandle } from "../ui/FileUpload";
-import { useVoiceRecording } from "@/hook/useSpeechToText";
+import { useVoiceRecording } from "@/hook/useVoiceRecording";
 
 type ChatInputProps = {
   onSend: (message: string, files: MessageFile[]) => void;
@@ -22,16 +22,25 @@ export default function ChatInput({
   const [files, setFiles] = useState<MessageFile[]>([]);
   const [resetTrigger, setResetTrigger] = useState(false);
   const fileUploadRef = useRef<FileUploadHandle>(null);
+
   const handleTranscription = (text: string) => {
     setMessage(text);
   };
 
+  const handleVoiceError = (error: string) => {
+    console.error("Voice recording error:", error);
+    // You can add a toast notification here if needed
+  };
+
   const {
     isRecording,
-    error,
+    isProcessing,
     startRecording,
     stopRecording,
-  } = useVoiceRecording(handleTranscription);
+  } = useVoiceRecording({
+    onTranscription: handleTranscription,
+    onError: handleVoiceError
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,6 +54,14 @@ export default function ChatInput({
 
   const handlePaperclipClick = () => {
     fileUploadRef.current?.triggerFilePicker();
+  };
+
+  const handleVoiceClick = () => {
+    if (isRecording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
   };
 
   return (
@@ -84,14 +101,18 @@ export default function ChatInput({
           />
           <button
             type="button"
-            onClick={isRecording ? stopRecording : startRecording}
-            disabled={disabled}
+            onClick={handleVoiceClick}
+            disabled={disabled || isProcessing}
             className="h-8 w-8 flex items-center justify-center border border-[#F3F7F6] rounded-md hover:bg-gray-100 transition"
-            title={isRecording ? "Stop Recording" : "Start Recording"}
+            title={isRecording ? "Stop Recording" : isProcessing ? "Processing..." : "Start Recording"}
           >
             <AudioLines
               className={`w-4 h-4 ${
-                isRecording ? "animate-pulse text-red-500" : "opacity-60"
+                isRecording 
+                  ? "animate-pulse text-red-500" 
+                  : isProcessing 
+                    ? "text-[#022e79] animate-spin" 
+                    : "opacity-60"
               }`}
             />
           </button>
