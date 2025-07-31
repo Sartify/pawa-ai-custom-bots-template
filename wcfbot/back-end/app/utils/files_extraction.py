@@ -1,10 +1,16 @@
 import httpx
 from fastapi import UploadFile, HTTPException, status
 from typing import List
+import yaml
 from dotenv import load_dotenv
 load_dotenv(override=True)
 
-EXTRACTION_URL = "http://localhost:8088/v1/extract/document-extract"
+with open("app/engine/config.yaml", "r") as file:
+    config = yaml.safe_load(file)
+
+BASE_UL = config["Extraction"]["Base_URL"]
+ENDPOINT = config["Extraction"]["Endpoint"]
+EXTRACTION_URL= f"{BASE_UL}{ENDPOINT}"
 
 async def send_files_to_extraction_server(files: List[UploadFile]) -> dict:
     multipart_files = []
