@@ -28,7 +28,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({
         </button>
 
         {/* Current Tab Info */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 ml-3">
           <div className="text-[#022e79]">
             {currentItem?.icon}
           </div>
@@ -46,7 +46,7 @@ const TopNavbar: React.FC<TopNavbarProps> = ({
         <div className="flex items-center space-x-2">
           <Link 
             href="/chat"
-            className="hidden md:flex items-center space-x-2 px-3 py-2 bg-[#022e79] text-white rounded-lg hover:bg-[#022e79]/90 transition-colors duration-200 font-medium text-sm"
+            className="hidden md:flex items-center space-x-2 px-3 py-3 bg-[#022e79] text-white rounded-md hover:bg-[#022e79]/90 transition-colors duration-200 font-medium text-sm"
           >
             <MessageCircle size={16} />
             <span>Continue to Chat</span>

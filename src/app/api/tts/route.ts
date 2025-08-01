@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const payload = await req.json();
     const { text, voice, model, max_tokens, temperature, top_p, repetition_penalty } = payload;
 
-    const apiUrl = `${process.env.API_BASE_URL}${process.env.API_TTS_ENDPOINT}`;
+    const apiUrl = `${process.env.API_BASE_URL1}${process.env.API_TTS_ENDPOINT}`;
 
     console.log("TTS Request payload:", payload);
     console.log("TTS API URL:", apiUrl);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X } from 'lucide-react';
+import { Bot, X } from 'lucide-react';
 import { NavItem } from './types';
 
 interface SidebarProps {
@@ -26,14 +26,17 @@ const Sidebar: React.FC<SidebarProps> = ({
       flex flex-col shadow-lg
     `}>
       {/* Sidebar Header */}
-      <div className="p-4 border-b border-gray-200 bg-gray-50">
-        <div className="flex items-center justify-between">
+      <div className="p-5 border-b border-gray-200 bg-gray-50">
+        <div className="flex items-center justify-center align-center gap-2">
+          <div className="flex items-center justify-center w-8 h-8">
+            <Bot size={20} className="text-[#022e79]" />
+          </div>
           <h1 className="text-[#022e79] text-lg font-semibold font-avenir">
-            WCF Agent Docs
+            WCF Agent
           </h1>
           <button
             onClick={onSidebarClose}
-            className="text-gray-500 hover:text-[#022e79] p-1 lg:hidden"
+            className="text-gray-500 hover:text-[#022e79] p-1 lg:hidden flex items-center justify-center w-8 h-8"
           >
             <X size={20} />
           </button>
@@ -51,7 +54,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onSidebarClose();
               }}
               className={`
-                w-full flex items-center space-x-3 px-3 py-3 rounded-lg text-left transition-all duration-200
+                w-full flex items-center space-x-3 px-3 py-3 rounded-md text-left transition-all duration-200
                 ${activeTab === item.id
                   ? 'bg-[#022e79] text-white shadow-md transform scale-105'
                   : 'text-gray-700 hover:bg-gray-100 hover:text-[#022e79] hover:scale-102'
@@ -65,11 +68,11 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <span className="font-medium block truncate">
                   {item.title}
                 </span>
-                <span className={`text-xs block truncate ${
+                {/* <span className={`text-xs block truncate ${
                   activeTab === item.id ? 'text-white/70' : 'text-gray-500'
                 }`}>
                   {item.description}
-                </span>
+                </span> */}
               </div>
             </button>
           ))}

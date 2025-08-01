@@ -18,8 +18,22 @@ export const useVoiceRecording = ({ onTranscription, onError }: UseVoiceRecordin
       console.log("[VOICE] Requesting microphone access...");
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       
+      // Try to use MP3 format first, then MP4, fallback to WebM if not supported
+      let mimeType = 'audio/mpeg';
+      if (!MediaRecorder.isTypeSupported('audio/mpeg')) {
+        if (MediaRecorder.isTypeSupported('audio/mp4')) {
+          mimeType = 'audio/mp4';
+          console.log("[VOICE] MP3 not supported, using MP4 format");
+        } else {
+          mimeType = 'audio/webm;codecs=opus';
+          console.log("[VOICE] MP3/MP4 not supported, using WebM with Opus codec");
+        }
+      } else {
+        console.log("[VOICE] Using MP3 format for recording");
+      }
+      
       const mediaRecorder = new MediaRecorder(stream, {
-        mimeType: 'audio/webm;codecs=opus'
+        mimeType: mimeType
       });
       
       mediaRecorderRef.current = mediaRecorder;
@@ -36,8 +50,18 @@ export const useVoiceRecording = ({ onTranscription, onError }: UseVoiceRecordin
           setIsProcessing(true);
           console.log("[VOICE] Recording stopped, processing audio...");
           
-          const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
-          const audioFile = new File([audioBlob], 'recording.webm', { type: 'audio/webm' });
+          const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+          let fileExtension = 'mp3';
+          if (mimeType.includes('mp4')) fileExtension = 'mp4';
+          else if (mimeType.includes('webm')) fileExtension = 'webm';
+          
+          const audioFile = new File([audioBlob], `recording.${fileExtension}`, { type: mimeType });
+          
+          console.log("[VOICE] Audio file created:", {
+            name: audioFile.name,
+            type: audioFile.type,
+            size: audioFile.size
+          });
           
           console.log("[VOICE] Sending audio for transcription...");
           const result = await transcribeAudio(audioFile);
@@ -57,7 +81,7 @@ export const useVoiceRecording = ({ onTranscription, onError }: UseVoiceRecordin
 
       mediaRecorder.start();
       setIsRecording(true);
-      console.log("[VOICE] Recording started");
+      console.log("[VOICE] Recording started with format:", mimeType);
       
     } catch (error) {
       console.error("[VOICE] Failed to start recording:", error);
