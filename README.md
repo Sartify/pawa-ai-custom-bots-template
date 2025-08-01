@@ -40,7 +40,7 @@ This project leverages a modern AI-powered stack, integrating language and speec
 
 ---
 
-###  **AI/ML (Conversational Intelligence)**
+### **AI/ML (Conversational Intelligence)**
 
 - **Chat Model (RAG)**:
    - **CHAT_MODEL** = "pawa-v1-blaze-20250318"
@@ -78,24 +78,6 @@ This project leverages a modern AI-powered stack, integrating language and speec
     - Accurate language detection (supports `sw` for Kiswahili)
     - `RESPONSE_FORMAT`: JSON (developer-friendly)
 
----
-
-###  **Knowledge Base**
-
-- **RAG Key (KB_REFERENCE_ID)**:  
-  A unique ID (`kb-1238b2e7-3873-4ea3-8077-497f66f9583b`) that connects the chatbot to your uploaded dataset (`/data` folder).
-
-- **Generate via**: `generate_kb.py`
-
----
-
-###  **Other Configs**
-- `TOOL_CHOICE`: `auto` (enables automatic use of tools like search or functions)
-- `LANG`: `sw` (default response language is Kiswahili, auto-switching enabled)
-- `IS_MUST_USE_KB`: *(optional)* — If enabled, ensures the bot always uses the knowledge base for answering.
-
----
-
 >  **Summary**:  
 > You're using **PAWA AI’s cutting-edge models** to enable deep, context-aware conversations, powered by your own documents — plus native voice interactions in Kiswahili and English.
 
@@ -104,17 +86,17 @@ This project leverages a modern AI-powered stack, integrating language and speec
 
 Before you begin, make sure you have the following installed and ready:
 
-- *** Python 3.8+ ***  
+- ***Python 3.8+***  
   Required for running the FastAPI backend, including RAG and speech processing logic.
 
-- *** Node.js 16+ and npm or yarn ***  
+- ***Node.js 16+ and npm or yarn***  
   Needed if you're using the optional NestJS frontend. Choose one package manager (either `npm` or `yarn`).
 
-- *** API Keys ***  
+- ***API Keys***  
   - **PAWA AI Chat API Key** – used to access the chatbot model (`pawa-v1-blaze-20250318`)
   - **TTS/STT API Key** – for voice features (Text-to-Speech and Speech-to-Text via PAWA AI)
 
-- *** Basic Knowledge of ***:
+- ***Basic Knowledge of***:
   - **Python** – to work with backend logic, FastAPI, and utilities
   - **TypeScript** – to understand and customize the frontend (if applicable)
   - **REST APIs** – to connect and test backend endpoints
